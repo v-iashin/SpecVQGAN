@@ -1,0 +1,118 @@
+model:
+  base_learning_rate: 5e-6
+  target: specvqgan.models.cond_transformer.Net2NetTransformer
+  params:
+    cond_stage_key: feature
+    transformer_config:
+      target: specvqgan.modules.transformer.mingpt.GPTFeats
+      params:
+        feat_embedding_config:
+          target: torch.nn.Conv1d # conv is used for convenience of applying the same FC at each position (kernel_size=1, padding=0) – donot change these params
+          params:
+            in_channels: 2048  # feat_depth
+            out_channels: 1024  # n_embd
+            kernel_size: 1
+            padding: 0
+        GPT_config:
+          vocab_size: 1024
+          block_size: 477  # 53*5 + how many frames (1)
+          n_layer: 24
+          n_head: 16
+          n_embd: 1024
+    first_stage_permuter_config:
+      target: specvqgan.modules.transformer.permuter.ColumnMajor
+      params:
+        H: 5  # mel_num, num of feats in specs / down_factor
+        W: 53  # cropped spec length / down_factor
+    first_stage_config:
+      target: specvqgan.models.vqgan.VQModel
+      params:
+        ckpt_path: 'Replace the first_stage ckpt path' # e.g. '2021-05-19T22-16-54_vggsound_codebook'
+        embed_dim: 256
+        n_embed: 1024
+        ddconfig:
+          double_z: false
+          z_channels: 256
+          resolution: 848
+          in_channels: 1
+          out_ch: 1
+          ch: 128
+          ch_mult: [1, 1, 2, 2, 4]
+          num_res_blocks: 2
+          attn_resolutions: [53]
+          dropout: 0.0
+        lossconfig:
+          target: specvqgan.modules.losses.DummyLoss
+    # no permuter for the cond stage as the raw features is already a sequence
+    cond_stage_config:
+      target: specvqgan.modules.misc.raw_feats.RawFeatsStage
+
+lightning:
+  modelcheckpoint:
+    target: pytorch_lightning.callbacks.ModelCheckpoint
+    params:
+      monitor: val/loss
+      mode: min
+      save_last:
+  callbacks:
+    image_logger:
+      target: train.ImageLogger
+      params:
+        for_specs: True
+        vocoder_cfg:
+          target: train.VocoderMelGan
+          params:
+            ckpt_vocoder: './vocoder/logs/vggsound/'
+    early_stop_callback:
+      target: pytorch_lightning.callbacks.EarlyStopping
+      params:
+        monitor: val/loss
+        mode: min
+        min_delta: 0.00
+        patience: 2
+        verbose: True
+
+
+data:
+  target: train.ConditionedSpectrogramDataModuleFromConfig
+  params:
+    batch_size: 2
+    num_workers: 8
+
+    spec_dir_path: './data/vggsound/melspec_10s_22050hz'
+    sample_rate: 22050
+    mel_num: 80
+    spec_len: 860
+    spec_crop_len: 848
+    random_crop: False
+
+    rgb_feats_dir_path: './data/vggsound/feature_rgb_bninception_dim1024_21.5fps' # BNInception features
+    flow_feats_dir_path: './data/vggsound/feature_flow_bninception_dim1024_21.5fps' # BNInception features
+    # rgb_feats_dir_path: './data/vggsound/feature_resnet50_dim2048_21.5fps' # ResNet50 features
+    feat_depth: 2048
+    feat_len: 215
+    feat_crop_len: 212
+    feat_sampler_cfg:
+      target: specvqgan.data.vggsound.ResampleFrames
+      params:
+        feat_sample_size: 212  # will resample `feat_crop_len` evenly to match `feat_sample_size`
+        # times_to_repeat_after_resample: 5  # will duplicate each of `feat_sample_size` by this number
+
+    train:
+      target: specvqgan.data.vggsound.VGGSoundSpecsCondOnFeatsTrain
+      params:
+        specs_dataset_cfg:
+        condition_dataset_cfg:
+          split_path: './data/vggsound_train.txt'
+    validation:
+      target: specvqgan.data.vggsound.VGGSoundSpecsCondOnFeatsValidation
+      params:
+        specs_dataset_cfg:
+        condition_dataset_cfg:
+          split_path: './data/vggsound_valid.txt'
+    test:
+      target: specvqgan.data.vggsound.VGGSoundSpecsCondOnFeatsTest
+      params:
+        specs_dataset_cfg:
+        condition_dataset_cfg:
+          split_path: './data/vggsound_test.txt'

@@ -1,0 +1,10 @@
+sampler:
+  splits: ['test']  # vggsound: ['train', 'validation', 'test'], vas: ['train', 'validation']
+  batch_size: 32
+  num_workers: 4
+  temperature: 1.0
+  sample_next_tok_from_pred_dist: True
+  top_k: 100
+  sampling_mode: 'nopix'  # nopix or half (given half of the encoded groundtruth tokens)
+  samples_per_video: 1
+  model_logdir: 'Please specify path to log directory e.g. ./logs/your_experiment'

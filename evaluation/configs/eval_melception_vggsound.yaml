@@ -1,0 +1,78 @@
+device: 'cuda:0'
+
+have_isc: True
+have_fid: True
+have_kid: True
+have_kl: True
+
+isc_cfg:
+  feat_layer_name: 'logits_unbiased'
+  splits: 10
+  samples_shuffle: True
+  rng_seed: 2020
+fid_cfg:
+  feat_layer_name: '2048'
+kid_cfg:
+  feat_layer_name: '2048'
+  subsets: 100
+  subset_size: 1000
+  degree: 3
+  gamma: None
+  coef0: 1
+  rng_seed: 2020
+kl_cfg:
+  feat_layer_name: 'logits'
+  dataset_name: 'vggsound'
+
+extraction_cfg:
+  batch_size: 64
+  save_cpu_ram: False
+
+feature_extractor: # vggsound-inception-v3     features_list: ['logits_unbiased', '2048', 'logits']
+  target: evaluation.feature_extractors.melception.Melception
+  params:
+    num_classes: 309
+    features_list: ['logits_unbiased', '2048', 'logits']
+    feature_extractor_weights_path: ./evaluation/logs/21-05-10T09-28-40/melception-21-05-10T09-28-40.pt
+
+# input1:
+#   path_to_exp: ./logs/2021-04-28T07-07-03_vggsound_rawfeats_transformer
+#   key: validation
+#   transform_dset_out_to_inception_in:
+#     - target: evaluation.datasets.transforms.FromMinusOneOneToZeroOne # image
+#     - target: specvqgan.modules.losses.vggishish.transforms.StandardNormalizeAudio  # input
+#       params:
+#         specs_dir: ./data/vggsound/melspec_10s_22050hz
+#         cache_path: ./specvqgan/modules/losses/vggishish/data/
+#     - target: evaluation.datasets.transforms.GetInputFromBatchByKey # image
+#       params:
+#         input_key: image
+#     - target: evaluation.datasets.transforms.ToFloat32
+input1:
+  target: evaluation.datasets.fakes.FakesFolder
+  params:
+    root: 'Please specify the path to generated samples `input1.params.root=??`' # ./logs/2021-06-03T09-34-10_vggsound_resampleframes_transformer/samples_2021-06-11T20-55-54/VGGSound_test
+    extensions: .npy
+  transform_dset_out_to_inception_in:
+    - target: evaluation.datasets.transforms.GetInputFromBatchByKey
+      params:
+        input_key: image
+    - target: specvqgan.modules.losses.vggishish.transforms.StandardNormalizeAudio
+      params:
+        specs_dir: ./data/vggsound/melspec_10s_22050hz
+        cache_path: ./specvqgan/modules/losses/vggishish/data/
+    - target: evaluation.datasets.transforms.ToFloat32
+
+input2:
+  path_to_exp: ./logs/2021-06-03T09-34-10_vggsound_resampleframes_transformer
+  key: test
+  transform_dset_out_to_inception_in:
+    - target: evaluation.datasets.transforms.FromMinusOneOneToZeroOne
+    - target: specvqgan.modules.losses.vggishish.transforms.StandardNormalizeAudio
+      params:
+        specs_dir: ./data/vggsound/melspec_10s_22050hz
+        cache_path: ./specvqgan/modules/losses/vggishish/data/
+    - target: evaluation.datasets.transforms.GetInputFromBatchByKey
+      params:
+        input_key: image
+    - target: evaluation.datasets.transforms.ToFloat32
