@@ -2,6 +2,7 @@
 • [[Project Page](https://v-iashin.github.io/SpecVQGAN)]
 • [arXiv (Coming Soon)]
 • [[Poster](https://v-iashin.github.io/images/specvqgan/poster.pdf)]
+• [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
 •
 
 <img src="https://github.com/v-iashin/v-iashin.github.io/raw/master/images/specvqgan/specvqgan_vggsound_samples.jpg" alt="Generated Samples Using our Model" width="900">
@@ -523,8 +524,7 @@ To start the streamlit server locally, run
 streamlit run --server.port 5555 ./sample_visualization.py --
 # go to `localhost:5555` in your browser
 ```
-
-A Google Colab demo is coming soon
+or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
 
 # The Neural Audio Codec Demo
 A recent [ArXiv submission](https://arxiv.org/abs/2107.03312) show-cased a VQVAE architecture with adversarial loss,
