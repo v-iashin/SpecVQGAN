@@ -524,7 +524,8 @@ To start the streamlit server locally, run
 streamlit run --server.port 5555 ./sample_visualization.py --
 # go to `localhost:5555` in your browser
 ```
-or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
+or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing).
+
 We also alternatively provide a similar notebook in `./generation_demo.ipynb` to play with the demo on
 a local machine.
 
@@ -536,7 +537,8 @@ neural audio codec without a change
 
 If you wish to apply the SpecVQGAN for audio compression for arbitrary audio,
 please see our Google Colab demo:
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1K_-e6CRQFLk9Uq6O46FOsAYt63TeEdXf?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1K_-e6CRQFLk9Uq6O46FOsAYt63TeEdXf?usp=sharing).
+
 We also alternatively provide a similar notebook in `./neural_audio_codec_demo.ipynb` to play with the demo on
 a local machine.
 
