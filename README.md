@@ -525,14 +525,20 @@ streamlit run --server.port 5555 ./sample_visualization.py --
 # go to `localhost:5555` in your browser
 ```
 or [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
+We also alternatively provide a similar notebook in `./generation_demo.ipynb` to play with the demo on
+a local machine.
 
 # The Neural Audio Codec Demo
-A recent [ArXiv submission](https://arxiv.org/abs/2107.03312) show-cased a VQVAE architecture with adversarial loss,
-called SoundStream, on lossy compression of a waveform with the state-of-the-art results on the 3 kbps
-bitrate which works on music and speech datasets. Since our approach includes sampling from a pre-trained
-codebook, we can employ our Spectrogram VQGAN pre-trained on an open-domain dataset as a neural audio codec without a change.
+While the Spectrogram VQGAN was never designed to be a neural audio codec but
+it happened to be highly effective for this task.
+We can employ our Spectrogram VQGAN pre-trained on an open-domain dataset as a
+neural audio codec without a change
 
-A Google Colab demo is coming soon
+If you wish to apply the SpecVQGAN for audio compression for arbitrary audio,
+please see our Google Colab demo:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1K_-e6CRQFLk9Uq6O46FOsAYt63TeEdXf?usp=sharing)
+We also alternatively provide a similar notebook in `./neural_audio_codec_demo.ipynb` to play with the demo on
+a local machine.
 
 # Citation
 Our paper was accepted as an oral presentation for the BMVC 2021.

@@ -23,6 +23,7 @@ from sample_visualization import (load_feature_extractor,
                                   load_model_from_config, load_vocoder)
 from specvqgan.data.vggsound import CropFeats
 from specvqgan.util import download, md5_hash
+from specvqgan.models.cond_transformer import disabled_train
 from train import instantiate_from_config
 
 from feature_extraction.extract_mel_spectrogram import get_spectrogram
@@ -135,6 +136,12 @@ def maybe_download_model(model_name: str, log_dir: str) -> str:
             'link': 'https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a'
                     '/specvqgan_public/models/2021-06-03T00-43-28_vggsound_transformer.tar.gz',
         },
+        '2021-05-19T22-16-54_vggsound_codebook': {
+            'info': 'VGGSound Codebook',
+            'hash': '7ea229427297b5d220fb1c80db32dbc5',
+            'link': 'https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a'
+                    '/specvqgan_public/models/2021-05-19T22-16-54_vggsound_codebook.tar.gz',
+        }
     }
     print(f'Using: {model_name} ({name2info[model_name]["info"]})')
     model_dir = os.path.join(log_dir, model_name)
@@ -186,6 +193,18 @@ def load_model(model_name, log_dir, device):
     melception = load_feature_extractor(True if device.type == 'cuda' else False, eval_mode=True)
     return config, sampler, melgan, melception
 
+def load_neural_audio_codec(model_name, log_dir, device):
+    model_dir = maybe_download_model(model_name, log_dir)
+    config = load_config(model_dir)
+
+    config.model.params.ckpt_path = f'./logs/{model_name}/checkpoints/last.ckpt'
+    print(config.model.params.ckpt_path)
+    model = instantiate_from_config(config.model)
+    model = model.to(device)
+    model = model.eval()
+    model.train = disabled_train
+    vocoder = load_vocoder(Path('./vocoder/logs/vggsound/'), eval_mode=True)['model'].to(device)
+    return config, model, vocoder
 
 class LeftmostCropOrTile(object):
     def __init__(self, crop_or_tile_to):
@@ -337,6 +356,26 @@ def show_grid(imgs):
         axs[0, i].imshow(np.asarray(img))
         axs[0, i].set(xticklabels=[], yticklabels=[], xticks=[], yticks=[])
     return fig
+
+def calculate_codebook_bitrate(duration, quant_z, codebook_size):
+    # Calculating the Bitrate
+    bottle_neck_size = quant_z.shape[-2:]
+    bits_per_codebook_entry = (codebook_size-1).bit_length()
+    bitrate = bits_per_codebook_entry * bottle_neck_size.numel() / duration / 1024
+    print(f'The input audio is {duration:.2f} seconds long.')
+    print(f'Codebook size is {codebook_size} i.e. a codebook entry allocates {bits_per_codebook_entry} bits')
+    print(f'SpecVQGAN bottleneck size: {list(bottle_neck_size)}')
+    print(f'Thus, bitrate is {bitrate:.2f} kbps')
+    return bitrate
+
+def get_audio_file_bitrate(file):
+    assert which_ffprobe() != '', 'Is ffmpeg installed? Check if the conda environment is activated.'
+    cmd = f'{which_ffprobe()} -v error -select_streams a:0'\
+          f' -show_entries stream=bit_rate -of default=noprint_wrappers=1:nokey=1 {file}'
+    result = subprocess.run(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    bitrate = int(result.stdout.decode('utf-8').replace('\n', ''))
+    bitrate /= 1024
+    return bitrate
 
 
 if __name__ == '__main__':
