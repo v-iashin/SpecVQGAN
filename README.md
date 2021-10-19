@@ -1,6 +1,6 @@
 # Taming Visually Guided Sound Generation
 • [[Project Page](https://v-iashin.github.io/SpecVQGAN)]
-• [arXiv (Coming Soon)]
+• [[ArXiv](http://arxiv.org/abs/2110.08791)]
 • [[Poster](https://v-iashin.github.io/images/specvqgan/poster.pdf)]
 • [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
 •

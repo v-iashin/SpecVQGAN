@@ -581,7 +581,10 @@ if __name__ == "__main__":
 
     This is a demo for **Visually Guided Sound Generation** project 🖼️ 👉 🔉.
 
-    [Project Page](https://v-iashin.github.io/specvqgan) • [Code](https://github.com/v-iashin/SpecVQGAN)
+    [Project Page](https://v-iashin.github.io/specvqgan)
+    • [Paper](https://arxiv.org/abs/2110.08791)
+    • [Code](https://github.com/v-iashin/SpecVQGAN)
+    • [Colab](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
     ''')
 
     sys.path.append(os.getcwd())
