@@ -565,5 +565,5 @@ Check it out if you are into high-res image generation.
 - The implementation of some evaluation metrics is partially borrowed and adapted from [torch-fidelity](https://github.com/toshas/torch-fidelity).
 - The feature extraction pipeline for BN-Inception relies on the baseline implementation [RegNet](https://github.com/PeihaoChen/regnet).
 - MelGAN training scripts are built upon the [official implementation for text-to-speech MelGAN](https://github.com/descriptinc/melgan-neurips).
-- Thanks [AK391](https://github.com/AK391) ([@ak92501](https://twitter.com/ak92501)) for adapting our neural audio codec demo as a
+- Thanks [AK391](https://github.com/AK391) for adapting our neural audio codec demo as a
 Gradio app at [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/akhaliq/SpecVQGAN_Neural_Audio_Codec)
