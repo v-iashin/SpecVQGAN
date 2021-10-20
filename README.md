@@ -539,6 +539,8 @@ If you wish to apply the SpecVQGAN for audio compression for arbitrary audio,
 please see our Google Colab demo:
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1K_-e6CRQFLk9Uq6O46FOsAYt63TeEdXf?usp=sharing).
 
+Integrated to [Huggingface Spaces](https://huggingface.co/spaces) with [Gradio](https://github.com/gradio-app/gradio). See demo: [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/akhaliq/SpecVQGAN_Neural_Audio_Codec)
+
 We also alternatively provide a similar notebook in `./neural_audio_codec_demo.ipynb` to play with the demo on
 a local machine.
 
