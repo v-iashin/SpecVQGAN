@@ -7,7 +7,11 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-import streamlit as st
+try:
+    import streamlit as st
+except ModuleNotFoundError:
+    pass
+
 import torch
 import torchvision
 import yaml
@@ -124,8 +128,11 @@ def load_model_from_config(config, sd, gpu=True, eval_mode=True):
     model = instantiate_from_config(config)
     if sd is not None:
         missing, unexpected = model.load_state_dict(sd, strict=False)
-        st.warning(f"Missing Keys in State Dict: {missing}")
-        st.warning(f"Unexpected Keys in State Dict: {unexpected}")
+        try:
+            st.warning(f"Missing Keys in State Dict: {missing}")
+            st.warning(f"Unexpected Keys in State Dict: {unexpected}")
+        except ModuleNotFoundError:
+            pass
     if gpu:
         model.cuda()
     if eval_mode:
@@ -187,7 +194,6 @@ def load_feature_extractor(gpu, eval_mode=True):
     target2label = {target: label for label, target in label2target.items()}
     return {'model': feat_extractor, 'transforms': transforms, 'target2label': target2label}
 
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
 def load_model_and_dataset(config, ckpt, ckpt_vocoder, gpu=True, eval_mode=True):
     # get data
     dsets = instantiate_from_config(config.data)
@@ -219,6 +225,15 @@ def load_model_and_dataset(config, ckpt, ckpt_vocoder, gpu=True, eval_mode=True)
     feat_extractor = load_feature_extractor(gpu, eval_mode)
 
     return dsets, model, vocoder, global_step, feat_extractor
+
+
+# the same as the decorator `@st.cache(allow_output_mutation=True, suppress_st_warning=True)`
+try:
+    load_model_and_dataset = st.cache(load_model_and_dataset, allow_output_mutation=True,
+                                      suppress_st_warning=True)
+except ModuleNotFoundError:
+    pass
+
 
 def bchw_to_st(x, to_scale=True, flip_dims=None):
     if flip_dims is not None:
@@ -255,6 +270,10 @@ def tensor_to_plt(x, vmin=None, vmax=None, flip_dims=None):
     #     x = x.flip(dims=(1,)).permute(1, 2, 0)
     #     x = (x + 1) / 2
     #     x = x.clip(0, 1)
+
+    # newer version of the matplotlib started to fails when an image has 3 dim with `1` as the last one
+    if x.ndim == 3 and x.shape[-1] == 1:
+        x = x[:, :, 0]
     ax.imshow(x, cmap=plt.get_cmap('gray'), vmin=vmin, vmax=vmax)
     # ax.set_title('Some', fontsize=8)
     return fig
