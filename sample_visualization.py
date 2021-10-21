@@ -131,7 +131,7 @@ def load_model_from_config(config, sd, gpu=True, eval_mode=True):
         try:
             st.warning(f"Missing Keys in State Dict: {missing}")
             st.warning(f"Unexpected Keys in State Dict: {unexpected}")
-        except ModuleNotFoundError:
+        except NameError:
             pass
     if gpu:
         model.cuda()
@@ -231,7 +231,7 @@ def load_model_and_dataset(config, ckpt, ckpt_vocoder, gpu=True, eval_mode=True)
 try:
     load_model_and_dataset = st.cache(load_model_and_dataset, allow_output_mutation=True,
                                       suppress_st_warning=True)
-except ModuleNotFoundError:
+except NameError:
     pass
 
 
