@@ -178,19 +178,20 @@ def load_config(model_dir: str):
     return config
 
 def load_model(model_name, log_dir, device):
+    to_use_gpu = True if device.type == 'cuda' else False
     model_dir = maybe_download_model(model_name, log_dir)
     config = load_config(model_dir)
 
     # Sampling model
     ckpt = sorted(glob(os.path.join(model_dir, 'checkpoints/*.ckpt')))[-1]
     pl_sd = torch.load(ckpt, map_location='cpu')
-    sampler = load_model_from_config(config.model, pl_sd['state_dict'])['model']
+    sampler = load_model_from_config(config.model, pl_sd['state_dict'], to_use_gpu)['model']
     sampler.to(device)
 
     # aux models (vocoder and melception)
     ckpt_melgan = config.lightning.callbacks.image_logger.params.vocoder_cfg.params.ckpt_vocoder
     melgan = load_vocoder(ckpt_melgan, eval_mode=True)['model'].to(device)
-    melception = load_feature_extractor(True if device.type == 'cuda' else False, eval_mode=True)
+    melception = load_feature_extractor(to_use_gpu, eval_mode=True)
     return config, sampler, melgan, melception
 
 def load_neural_audio_codec(model_name, log_dir, device):
