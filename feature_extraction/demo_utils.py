@@ -52,6 +52,14 @@ def which_ffprobe() -> str:
     return ffprobe_path
 
 
+def check_video_for_audio(path):
+    assert which_ffprobe() != '', 'Is ffmpeg installed? Check if the conda environment is activated.'
+    cmd = f'{which_ffprobe()} -loglevel error -show_entries stream=codec_type -of default=nw=1 {path}'
+    result = subprocess.run(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    result = result.stdout.decode('utf-8')
+    print(result)
+    return 'codec_type=audio' in result
+
 def get_duration(path):
     assert which_ffprobe() != '', 'Is ffmpeg installed? Check if the conda environment is activated.'
     cmd = f'{which_ffprobe()} -hide_banner -loglevel panic' \
