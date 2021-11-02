@@ -2,8 +2,10 @@
 • [[Project Page](https://v-iashin.github.io/SpecVQGAN)]
 • [[ArXiv](http://arxiv.org/abs/2110.08791)]
 • [[Poster](https://v-iashin.github.io/images/specvqgan/poster.pdf)]
-• [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
-•
+• [[Presentation](https://www.youtube.com/watch?v=Bucb3nAa398)] ([Can't watch YouTube?](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/SpecVQGAN%20YouTube.mp4))
+• 
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
 
 <img src="https://github.com/v-iashin/v-iashin.github.io/raw/master/images/specvqgan/specvqgan_vggsound_samples.jpg" alt="Generated Samples Using our Model" width="900">
 
