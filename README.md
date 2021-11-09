@@ -1,7 +1,10 @@
 # Taming Visually Guided Sound Generation
+
+BMVC 2021 – Oral Presentation
+
 • [[Project Page](https://v-iashin.github.io/SpecVQGAN)]
 • [[ArXiv](http://arxiv.org/abs/2110.08791)]
-• [[Poster](https://v-iashin.github.io/images/specvqgan/poster.pdf)]
+• [[Poster (for PAISS)](https://v-iashin.github.io/images/specvqgan/poster.pdf)]
 • [[Presentation](https://www.youtube.com/watch?v=Bucb3nAa398)] ([Can't watch YouTube?](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/SpecVQGAN%20YouTube.mp4))
 • 
 
