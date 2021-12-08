@@ -7,7 +7,7 @@ BMVC 2021 – Oral Presentation
 • [[BMVC Proceedings](https://www.bmvc2021-virtualconference.com/conference/papers/paper_1213.html)]
 • [[Poster (for PAISS)](https://v-iashin.github.io/images/specvqgan/poster.pdf)]
 • [[Presentation on YouTube](https://www.youtube.com/watch?v=Bucb3nAa398)] ([Can't watch YouTube?](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/SpecVQGAN%20YouTube.mp4))
-• 
+•
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pxTIMweAKApJZ3ZFqyBee3HtMqFpnwQ0?usp=sharing)
 
@@ -131,7 +131,7 @@ Each part holds ~3k clips and can be used independently as a subset of the whole
 
 For `BN Inception` features, we employ the same procedure as [RegNet](https://github.com/PeihaoChen/regnet#data-preprocessing).
 
-For `ResNet50` features, we rely on [video_features](https://v-iashin.github.io/video_features/models/resnet/)
+For `ResNet50` features, we rely on [video_features (branch `specvqgan`)](https://github.com/v-iashin/video_features/tree/specvqgan)
 repository and used these commands:
 ```bash
 # VAS (few hours on three 2080Ti)
@@ -299,9 +299,9 @@ The setting **(a)**: the transformer is trained on *VGGSound* to sample from the
 | 212 Feats | BN Inception |   9.6 |        6.8 |          11.8 | [79895ac08303b1536809cad1ec9a7502](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/models/2021-06-03T07-27-58_vggsound_transformer.tar.gz) |
 | 212 Feats |     ResNet50 | 10.5* |       6.9* |          11.8 | [b222cc0e7aeb419f533d5806a08669fe](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/models/2021-07-30T21-34-41_vggsound_transformer.tar.gz) |
 
-\* – calculated on 1 sampler per video the test set instead of 10 samples per video as the rest.
+\* – calculated on 1 sample per video the test set instead of 10 samples per video that is used for the rest.
 Evaluating a model on a larger number of samples per video is an expensive procedure.
-When evaluative on 10 samples per video, one might expect that the values might improve a bit (~+0.1).
+When evaluated on 10 samples per video, one might expect that the values might improve a bit (~+0.1).
 
 The setting **(b)**: the transformer is trained on *VAS* to sample from the *VGGSound* codebook
 | Condition |     Features | FID ↓ | Avg. MKL ↓ | Sample Time️ ↓ |                                                                                                                                                        Link / MD5SUM |
@@ -314,9 +314,9 @@ The setting **(b)**: the transformer is trained on *VAS* to sample from the *VGG
 | 212 Feats | BN Inception |  20.5 |        6.0 |          11.8 | [1c4e56077d737677eac524383e6d98d3](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/models/2021-06-03T05-38-40_vas_transformer.tar.gz) |
 | 212 Feats |     ResNet50 | 20.8* |       6.2* |          11.8 | [6e553ea44c8bc7a3310961f74e7974ea](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/models/2021-07-29T11-52-28_vas_transformer.tar.gz) |
 
-\* – calculated on 10 sampler per video the validation set instead of 100 samples per video as the rest.
+\* – calculated on 10 samples per video the test set instead of 100 samples per video that is used for the rest.
 Evaluating a model on a larger number of samples per video is an expensive procedure.
-When evaluative on 10 samples per video, one might expect that the values might improve a bit (~+0.1).
+When evaluated on 10 samples per video, one might expect that the values might improve a bit (~+0.1).
 
 The setting **(c)**: the transformer is trained on *VAS* to sample from the *VAS* codebook
 | Condition |     Features | FID ↓ | Avg. MKL ↓ | Sample Time ↓ |                                                                                                                                                        Link / MD5SUM |
@@ -329,9 +329,9 @@ The setting **(c)**: the transformer is trained on *VAS* to sample from the *VAS
 | 212 Feats | BN Inception |  25.4 |        5.9 |          11.6 | [4542632b3c5bfbf827ea7868cedd4634](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/models/2021-06-09T15-17-18_vas_transformer.tar.gz) |
 | 212 Feats |     ResNet50 | 22.6* |       5.8* |          11.6 | [dc2b5cbd28ad98d2f9ca4329e8aa0f64](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/models/2021-07-29T13-34-39_vas_transformer.tar.gz) |
 
-\* – calculated on 10 sampler per video the validation set instead of 100 samples per video as the rest.
+\* – calculated on 10 samples per video the test set instead of 100 samples per video that is used for the rest.
 Evaluating a model on a larger number of samples per video is an expensive procedure.
-When evaluative on 10 samples per video, one might expect that the values might improve a bit (~+0.1).
+When evaluated on 10 samples per video, one might expect that the values might improve a bit (~+0.1).
 
 A transformer can also be trained to generate a spectrogram given a specific **class**.
 We also provide pre-trained models for all three settings:
@@ -440,7 +440,7 @@ cd ./specvqgan/modules/losses/vggishish
 # vggish-ish
 python train_vggishish.py config=./configs/vggish.yaml device='cuda:0'
 # melception
-python train_melception.py config=./configs/melception.yaml device='cuda:1'
+python train_melception.py config=./configs/melception.yaml device='cuda:0'
 ```
 
 ## Training MelGAN
@@ -565,7 +565,7 @@ Please, use this bibtex if you would like to cite our work
 # Acknowledgments
 Funding for this research was provided by the Academy of Finland projects 327910 & 324346. The authors acknowledge CSC — IT Center for Science, Finland, for computational resources for our experimentation.
 
-We also acknowledge the following codebases:
+We also acknowledge the following work:
 - The code base is built upon an amazing [taming-transformers](https://github.com/CompVis/taming-transformers) repo.
 Check it out if you are into high-res image generation.
 - The implementation of some evaluation metrics is partially borrowed and adapted from [torch-fidelity](https://github.com/toshas/torch-fidelity).
