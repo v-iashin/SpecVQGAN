@@ -132,7 +132,7 @@ class vggishish16(torch.nn.Module):
         if pretrained:
             ckpt_path = get_ckpt_path('vggishish_lpaps', "specvqgan/modules/autoencoder/lpaps")
             ckpt = torch.load(ckpt_path, map_location=torch.device("cpu"))
-            model.load_state_dict(ckpt, strict=False)
+            model.load_state_dict(ckpt['model'])
         return model
 
 def normalize_tensor(x, eps=1e-10):
