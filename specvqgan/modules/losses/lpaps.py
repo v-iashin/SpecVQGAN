@@ -30,18 +30,18 @@ class LPAPS(nn.Module):
         for param in self.parameters():
             param.requires_grad = False
 
-    def load_from_pretrained(self, name="lpaps"):
+    def load_from_pretrained(self, name="vggishish_lpaps"):
         ckpt = get_ckpt_path(name, "specvqgan/modules/autoencoder/lpaps")
-        self.load_state_dict(torch.load(ckpt, map_location=torch.device("cpu")))
+        self.load_state_dict(torch.load(ckpt, map_location=torch.device("cpu")), strict=False)
         print("loaded pretrained LPAPS loss from {}".format(ckpt))
 
     @classmethod
-    def from_pretrained(cls, name="lpaps"):
-        if name != "lpaps":
+    def from_pretrained(cls, name="vggishish_lpaps"):
+        if name != "vggishish_lpaps":
             raise NotImplementedError
         model = cls()
-        ckpt = get_ckpt_path(name, "specvqgan/modules/autoencoder/lpaps")
-        model.load_state_dict(torch.load(ckpt, map_location=torch.device("cpu")))
+        ckpt = get_ckpt_path(name)
+        model.load_state_dict(torch.load(ckpt, map_location=torch.device("cpu")), strict=False)
         return model
 
     def forward(self, input, target):
@@ -130,9 +130,9 @@ class vggishish16(torch.nn.Module):
         conv_layers = [64, 64, 'MP', 128, 128, 'MP', 256, 256, 256, 'MP', 512, 512, 512, 'MP', 512, 512, 512]
         model = VGGishish(conv_layers, use_bn=False, num_classes=num_classes_vggsound)
         if pretrained:
-            ckpt_path = get_ckpt_path('vggishish', "specvqgan/modules/autoencoder/lpaps")
+            ckpt_path = get_ckpt_path('vggishish_lpaps', "specvqgan/modules/autoencoder/lpaps")
             ckpt = torch.load(ckpt_path, map_location=torch.device("cpu"))
-            model.load_state_dict(ckpt['model'])
+            model.load_state_dict(ckpt, strict=False)
         return model
 
 def normalize_tensor(x, eps=1e-10):

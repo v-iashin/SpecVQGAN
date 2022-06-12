@@ -5,22 +5,19 @@ import requests
 from tqdm import tqdm
 
 URL_MAP = {
-    'lpaps': 'https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/lpaps.pt',
-    'vggishish': 'https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/vggishish16.pt',
+    'vggishish_lpaps': 'https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/vggishish16.pt',
     'vggishish_mean_std_melspec_10s_22050hz': 'https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/train_means_stds_melspec_10s_22050hz.txt',
     'melception': 'https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/melception-21-05-10T09-28-40.pt',
 }
 
 CKPT_MAP = {
-    'lpaps': 'lpaps.pt',
-    'vggishish': 'vggishish16.pt',
+    'vggishish_lpaps': 'vggishish16.pt',
     'vggishish_mean_std_melspec_10s_22050hz': 'train_means_stds_melspec_10s_22050hz.txt',
     'melception': 'melception-21-05-10T09-28-40.pt',
 }
 
 MD5_MAP = {
-    'lpaps': 'f8d4e7dba2b870222fe2bee26f85e7c9',
-    'vggishish': '197040c524a07ccacf7715d7080a80bd',
+    'vggishish_lpaps': '197040c524a07ccacf7715d7080a80bd',
     'vggishish_mean_std_melspec_10s_22050hz': 'f449c6fd0e248936c16f6d22492bb625',
     'melception': 'a71a41041e945b457c7d3d814bbcf72d',
 }
