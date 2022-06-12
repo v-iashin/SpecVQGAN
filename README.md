@@ -365,6 +365,12 @@ Second, a **transformer** is trained to sample from the codebook
 The first and the second stages can be trained on the same or separate datasets as long as the process of spectrogram extraction is the same.
 
 ## Training a Spectrogram Codebook
+
+> **Erratum**: during training with the default config, the code will silently fail to load the checkpoint of
+> the perceptual loss. This leads to the results which are as good as without the perceptual loss.
+> For this reason, one may try turning it off completely: `perceptual_weight=0.0` and benefit from faster
+> iterations. For details please refer to [Issue#13](https://github.com/v-iashin/SpecVQGAN/issues/13)
+
 To train a spectrogram codebook, we tried two datasets: VAS and VGGSound.
 We run our experiments on a relatively expensive hardware setup with four _40GB NVidia A100_ but the models
 can also be trained on one _12GB NVidia 2080Ti_ with smaller batch size.
