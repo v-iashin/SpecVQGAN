@@ -348,7 +348,12 @@ These will be downloaded automatically during the first run.
 However, if you need them separately, here are the checkpoints
 - [VGGish-ish](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/vggishish16.pt) (1.54GB, `197040c524a07ccacf7715d7080a80bd`) + Normalization Parameters (in `/specvqgan/modules/losses/vggishish/data/`)
 - [Melception](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/melception-21-05-10T09-28-40.pt) (0.27GB, `a71a41041e945b457c7d3d814bbcf72d`) + Normalization Parameters (in `/specvqgan/modules/losses/vggishish/data/`)
-- [MelGAN](./vocoder/logs/vggsound)
+- [MelGAN](./vocoder/logs/vggsound). If you wish to continue training it here are checkpoints
+[netD.pt](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/melgan_ckpt/netD.pt),
+[netG.pt](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/melgan_ckpt/netG.pt),
+[optD.pt](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/melgan_ckpt/optD.pt),
+[optG.pt](https://a3s.fi/swift/v1/AUTH_a235c0f452d648828f745589cde1219a/specvqgan_public/melgan_ckpt/optG.pt).
+
 
 The reference performance of VGGish-ish and Melception:
 | Model      | Top-1 Acc | Top-5 Acc | mAP   | mAUC  |
