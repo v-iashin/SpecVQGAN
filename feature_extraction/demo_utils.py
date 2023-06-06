@@ -208,7 +208,8 @@ def load_model_vocoder(model_name, log_dir, device):
     config = load_config(model_dir)
     
     # vocoder only model (vocoder)
-    ckpt_melgan = config.lightning.callbacks.image_logger.params.vocoder_cfg.params.ckpt_vocoder
+    #ckpt_melgan = config.lightning.callbacks.image_logger.params.vocoder_cfg.params.ckpt_vocoder
+    ckpt_melgan = '/content/SpecVQGAN/vocoder/logs/vggsound/best_netG.pt'
     melgan = load_vocoder(ckpt_melgan, eval_mode=True)['model'].to(device)
     return config, melgan
 
