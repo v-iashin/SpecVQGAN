@@ -202,6 +202,16 @@ def load_model(model_name, log_dir, device):
     melception = load_feature_extractor(to_use_gpu, eval_mode=True)
     return config, sampler, melgan, melception
 
+def load_model_vocoder(model_name, log_dir, device):
+    to_use_gpu = True if device.type == 'cuda' else False
+    model_dir = maybe_download_model(model_name, log_dir)
+    config = load_config(model_dir)
+    
+    # vocoder only model (vocoder)
+    ckpt_melgan = config.lightning.callbacks.image_logger.params.vocoder_cfg.params.ckpt_vocoder
+    melgan = load_vocoder(ckpt_melgan, eval_mode=True)['model'].to(device)
+    return config, melgan
+
 def load_neural_audio_codec(model_name, log_dir, device):
     model_dir = maybe_download_model(model_name, log_dir)
     config = load_config(model_dir)
