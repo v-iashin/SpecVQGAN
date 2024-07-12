@@ -74,7 +74,7 @@ class ResampleFrames(object):
         ## resample
         assert feat_len >= self.feat_sample_size
         # evenly spaced points (abcdefghkl -> aoooofoooo)
-        idx = np.linspace(0, feat_len, self.feat_sample_size, dtype=np.int, endpoint=False)
+        idx = np.linspace(0, feat_len, self.feat_sample_size, dtype=np.long, endpoint=False)
         # xoooo xoooo -> ooxoo ooxoo
         shift = feat_len // (self.feat_sample_size + 1)
         idx = idx + shift
